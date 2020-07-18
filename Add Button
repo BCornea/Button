@@ -1,0 +1,28 @@
+function AddButton() {
+  let activeSheet = SpreadsheetApp.getActiveSpreadsheet();
+ 
+  let currentSheet = activeSheet.getSheetByName("Tab Name");
+ 
+  let date = currentSheet.getRange(3, 1).getValue(); // in case you have a date value
+ 
+  let targetSheet = currentSheet.getRange(3, 2).getValue(); //the getRange can be changed to any cell where/if you have a trget tab
+ 
+  let event = currentSheet.getRange(3 ,3).getValue(); //the getRange can be changed to the cell where you have the information that needs to be added
+ 
+  let addSheet = activeSheet.getSheetByName(targetSheet);
+ 
+  var data = addSheet.getDataRange().getValues();
+ 
+  var lastRow = addSheet.getLastRow();
+ 
+  var user = Session.getActiveUser().getEmail();
+ 
+  //this adds the date to the sheet
+  addSheet.getRange(lastRow + 1 , 1).setValue(date);
+ 
+  //this adds the email address to the sheet
+  addSheet.getRange(lastRow + 1, 2).setValue(user);
+ 
+  //this adds the event to what happened col
+  addSheet.getRange(lastRow + 1 , 3).setValue(event);
+}
