@@ -1,0 +1,48 @@
+function Button() {
+    //set the basic variables
+  var app = SpreadsheetApp;
+  var ss = app.getActiveSpreadsheet();
+  var Test1 = ss.getSheetByName("sheet 1");//variable for sheet 1
+  var agent = Test1.getRange(3,1).getValue();
+  var sheet = Test1.getRange(3,2).getValue();
+  var cases = Test1.getRange(3,3).getValue();
+  var i = 0;
+
+   
+  var data = ss.getSheetByName(sheet).getDataRange().getValues();  //creates an array
+  var col = data[0].indexOf("Column Name")+1;  // searches the array for Column Name
+
+  var range = ""+String.fromCharCode(97 + col - 1)+"1:"+String.fromCharCode(97 + col - 1)+"";
+  var lr = getLastRow(sheet, range);
+
+ 
+  //here is where the code adds cases
+ while (i<cases){
+    if(lr>ss.getSheetByName(sheet).getLastRow()){
+      break;
+    }
+    if(ss.getSheetByName(sheet).getRange(lr,col).getValue() == ""){
+      ss.getSheetByName(sheet).getRange(lr,col).setValue(agent);    
+      i++;
+    }
+    lr++;
+  }
+   
+}
+
+
+//this function gets me the last row of the selected column
+
+function getLastRow(sheet,range){
+  var ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheet);
+  var rng = ss.getRange(range).getValues();
+  var lrIndex;
+  for (var i = rng.length-1;i>=0;i--){
+      lrIndex = i;
+    if(!rng[i].every(function(c){ return c == "";})){
+      break;
+    }
+  }
+  return lrIndex+1;
+ 
+}
